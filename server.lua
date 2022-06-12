@@ -161,9 +161,7 @@ RegisterServerCallback("TransferMoney",function(player,cb,amount,typeFrom,typeTo
     TransferPlayerMoney(player,typeFrom,typeTo,amount,cb,outreason,inreason)
 end)
 
-RegisterServerCallback("TransferMoneyToPlayer",function(player,targetplayer,cb,amount,typeFrom,typeTo,outreason,inreason)
-    TransferPlayerMoneyToPlayer(player,targetplayer,typeFrom,typeTo,amount,cb,outreason,inreason)
-end)
+
 
 local salaryTimer = config.salaryInterval * 60000
 CreateThread(function()

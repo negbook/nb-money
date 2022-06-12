@@ -10,7 +10,7 @@ escrow_ignore {
     'client.lua',
     'config.lua',
     'server.lua',
-    'commands.lua'
+    'commands/*.lua'
 }
 
 client_scripts {
@@ -18,12 +18,13 @@ client_scripts {
 'module/shared/*.js',
 'module/shared/*.lua',
 'module/*.lua',
-'commands.lua'
+'commands/client.lua'
 --'example.lua'
 }
 
 server_scripts {
-'server.lua'
+'server.lua',
+'commands/receiver.lua'
 }
 
 shared_scripts {

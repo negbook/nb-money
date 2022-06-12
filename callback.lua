@@ -18,15 +18,16 @@ if not IsDuplicityVersion() then
 
     TriggerServerCallbackSynced = function(name,cb,...)
         local p = promise.new() 
-        TriggerServerCallback(name, function()
-            cb()
+        TriggerServerCallback(name, function(...)
+            if cb then cb(...) end
+            p:resolve({...})
         end, ...)
-        Citizen.Await(p) 
+        return table.unpack(Citizen.Await(p)) 
     end 
 else 
     
-    Callbacks = {}
-    CurrentIndex = 0
+    local Callbacks = {}
+    local CurrentIndex = 0
     RegisterServerCallback = function(name,cb)
         local uuid = name
         Callbacks[CurrentIndex+1] = {
@@ -59,4 +60,67 @@ else
             TriggerClientEvent("n"..GetCurrentResourceName()..':ServerCallbackResultTo:'..uuid,Client,result)
         end 
     end)
+end 
+
+if not IsDuplicityVersion() then 
+    local Callbacks = {}
+    local CurrentIndex = 0
+    RegisterClientCallback = function(name,cb)
+        local uuid = name
+        Callbacks[CurrentIndex+1] = {
+            uuid = uuid,
+            callback = cb,
+        }
+        CurrentIndex = CurrentIndex + 1
+        if CurrentIndex > 2^15 then 
+            CurrentIndex = 0
+        end
+        return uuid
+    end
+
+    RegisterNetEvent("n"..GetCurrentResourceName()..':RequestClientCallback', function(uuid,...)
+        local result
+        local args = {...}
+        for i,v in pairs(Callbacks) do 
+            if v.uuid == uuid then 
+                result = v.callback(function(...)
+                    --cb method
+                    TriggerServerEvent("n"..GetCurrentResourceName()..':ClientCallbackResultTo:'..uuid,...)
+                end,table.unpack(args))
+                
+                break
+            end 
+        end
+        --sync method (return on RegisterServerCallback)
+        if result then
+            TriggerServerEvent("n"..GetCurrentResourceName()..':ClientCallbackResultTo:'..uuid,result)
+        end 
+    end)
+else 
+    TriggerClientCallback = function(client,name,cb,...)
+        local p = promise.new() 
+        local uuid = name
+        TriggerClientEvent("n"..GetCurrentResourceName()..':RequestClientCallback',client,uuid,...)
+        local tempEvent; tempEvent=RegisterNetEvent("n"..GetCurrentResourceName()..':ClientCallbackResultTo:'..uuid, function(...)
+            local args = {...}
+            if args[1] == nil or tonumber(client) ~= tonumber(source) then 
+                p:reject() 
+                RemoveEventHandler(tempEvent)
+            else 
+                p:resolve({...})
+                RemoveEventHandler(tempEvent)
+            end 
+        end)
+        cb(table.unpack(Citizen.Await(p)))
+    end
+
+    TriggerClientCallbackSynced = function(client,name,cb,...)
+        local p = promise.new() 
+        TriggerClientCallback(client, name, function(...)
+            if cb then cb(...) end
+            p:resolve({...})
+        end, ...)
+        return table.unpack(Citizen.Await(p)) 
+    end 
+    
 end 
