@@ -40,7 +40,7 @@ CreateThread(function()
     end 
 end) 
 
-ChargerMoney = function(type,amount,cb,reason,safe)
+ChargerMoney = function(type,amount,cb,reason)
     while not initialed do Wait(0) end  
     TriggerServerCallback("ChargerMoney",function(success)
         if success then 
@@ -50,11 +50,13 @@ ChargerMoney = function(type,amount,cb,reason,safe)
             end,"cash","bank")
         end 
         if cb then cb(success) end 
-    end,amount,type,reason,safe)
+    end,amount,type,reason)
 end
 
 exports("ChargerMoney",ChargerMoney)
-AddEventHandler("ChargerMoney",ChargerMoney)
+if not config.disableEvents then 
+    AddEventHandler("ChargerMoney",ChargerMoney)
+end 
 
 receiveSalary = function(amount)
     BeginTextCommandThefeedPost("GOODBOYTICK")

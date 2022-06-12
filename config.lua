@@ -6,3 +6,4 @@ config.startingBank = 0
 config.startingCryto = 0
 config.salaryAmount = 50
 config.salaryInterval = 24
+config.disableEvents = true 
