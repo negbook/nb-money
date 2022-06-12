@@ -1,7 +1,6 @@
 Command = setmetatable({},{__newindex=function(t,k,fn) RegisterCommand(k,function(source, args, raw) fn(table.unpack(args)) end) return end })
-
+logInPauseMenu = 1
 ShowNotificationTicker = function(msg)
-    logInPauseMenu = 1
     BeginTextCommandThefeedPost("STRING")
     AddTextComponentSubstringPlayerName(msg or "")
     EndTextCommandThefeedPostTicker(0,logInPauseMenu)
