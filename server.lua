@@ -60,7 +60,10 @@ RemovePlayerMoney = function(player,type,amount,cb,reason,safe)
     local amount = tonumber(amount)
     GetMoneyData(player,type,function(data)
         if data then
-            if safe and data - amount < 0 then return end
+            if safe and data - amount < 0 then 
+                cb(false)
+                return 
+            end
             if amount < 0 then
                 if cb then cb(false) end 
             else
@@ -78,7 +81,10 @@ AddPlayerMoney = function(player,type,amount,cb,reason,safe)
     local amount = tonumber(amount)
     GetMoneyData(player,type,function(data)
         if data then
-            if safe and amount > 1000000 then return end
+            if safe and amount > 1000000 then 
+                cb(false)
+                return 
+            end
             if amount < 0 then
                 if cb then cb(false) end 
             else
@@ -96,7 +102,9 @@ end
 TransferPlayerMoneyToPlayer = function(playerFrom,playerTo,typeFrom,typeTo,amount,cb,outreason,inreason)
     RemovePlayerMoney(playerFrom,typeFrom,amount,function(suscess)
         if suscess then 
+            
             AddPlayerMoney(playerTo,typeTo,amount,function(suscess2)
+
                 cb(suscess2)
             end, inreason or "")
         else 

@@ -9,7 +9,8 @@ escrow_ignore {
 	'callback.lua',
     'client.lua',
     'config.lua',
-    'server.lua'
+    'server.lua',
+    'commands.lua'
 }
 
 client_scripts {
@@ -17,6 +18,7 @@ client_scripts {
 'module/shared/*.js',
 'module/shared/*.lua',
 'module/*.lua',
+'commands.lua'
 --'example.lua'
 }
 
@@ -27,6 +29,7 @@ server_scripts {
 shared_scripts {
     'config.lua',
     'callback.lua'
+    
 }
 
 dependencies {
