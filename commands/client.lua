@@ -6,10 +6,12 @@ ShowNotificationTicker = function(msg)
     EndTextCommandThefeedPostTicker(0,logInPauseMenu)
 end
 
-
 local ShowNotification = ShowNotificationTicker
 
-Command["give"] = function(target,amount)
+
+
+Command["give"] = function(amount,target)
+
     TriggerServerCallback("cmd:give",function(suscess,err)
         if not suscess then 
             print(err)
@@ -21,7 +23,8 @@ Command["give"] = function(target,amount)
     end,target,amount)
 end 
 
-Command["pay"] = function(target,amount)
+Command["pay"] = function(amount,target)
+
     TriggerServerCallback("cmd:pay",function(suscess,err)
         if not suscess then 
             print(err)
