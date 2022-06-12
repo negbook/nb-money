@@ -81,16 +81,20 @@ AddPlayerMoney = function(player,type,amount,cb,reason,safe)
     
 end
 
-TransferPlayerMoney = function(player,typeFrom,typeTo,amount,cb,outreason,inreason)
-    RemovePlayerMoney(player,typeFrom,amount,function(suscess)
+TransferPlayerMoneyToPlayer = function(playerFrom,playerTo,typeFrom,typeTo,amount,cb,outreason,inreason)
+    RemovePlayerMoney(playerFrom,typeFrom,amount,function(suscess)
         if suscess then 
-            AddPlayerMoney(player,typeTo,amount,function(suscess2)
+            AddPlayerMoney(playerTo,typeTo,amount,function(suscess2)
                 cb(suscess2)
             end, inreason or "")
         else 
             cb(false)
         end 
     end, outreason or "" ,true)
+end
+
+TransferPlayerMoney = function(player,typeFrom,typeTo,amount,cb,outreason,inreason)
+    TransferPlayerMoneyToPlayer(player,player,typeFrom,typeTo,amount,cb,outreason,inreason)
 end 
 
 RegisterServerCallback("GetMoneyLog",function(player,cb)
@@ -147,13 +151,18 @@ RegisterServerCallback("TransferMoney",function(player,cb,amount,typeFrom,typeTo
     TransferPlayerMoney(player,typeFrom,typeTo,amount,cb,outreason,inreason)
 end)
 
+RegisterServerCallback("TransferMoneyToPlayer",function(player,targetplayer,cb,amount,typeFrom,typeTo,outreason,inreason)
+    TransferPlayerMoneyToPlayer(player,targetplayer,typeFrom,typeTo,amount,cb,outreason,inreason)
+end)
+
 local salaryTimer = config.salaryInterval * 60000
 CreateThread(function()
     while true do
         Wait(salaryTimer)
         for _, player in pairs(GetPlayers()) do
-            exports.oxmysql:query("UPDATE money SET bank = bank + ? WHERE license = ?", {config.salaryAmount, GetPlayerLicense("license", player)})
-            TriggerClientEvent("receiveSalary", player, config.salaryAmount)
+            UpdateMoneyData(player,"bank",config.salaryAmount,function()
+                TriggerClientEvent("receiveSalary", player, config.salaryAmount)
+            end,"Salary")
         end
     end
 end)
@@ -163,6 +172,7 @@ AddEventHandler("AddPlayerMoney",AddPlayerMoney)
 exports("RemovePlayerMoney",RemovePlayerMoney)
 exports("AddPlayerMoney",AddPlayerMoney)
 exports("TransferPlayerMoney",TransferPlayerMoney)
+exports("TransferPlayerMoneyToPlayer",TransferPlayerMoneyToPlayer)
 
 
 
