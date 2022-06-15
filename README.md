@@ -4,24 +4,32 @@ exports["nb-money"]:RemovePlayerMoney(player,accountType,amount,cb,reason,safe)
 exports["nb-money"]:AddPlayerMoney(player,accountType,amount,cb,reason,safe)
 exports["nb-money"]:TransferPlayerMoney(player,cb,amount,accountTypeFrom,accountTypeTo,outreason,inreason)
 exports["nb-money"]:TransferPlayerMoneyToPlayer(player,targetplayer,cb,amount,typeFrom,typeTo,outreason,inreason)
+exports["nb-money"]:GetMoneyLog(player,cb)
+exports["nb-money"]:GetPlayerMoney(player,cb)
+
 ```
 ## events server (not supported TriggerServerEvent for safe)
 ```
-TriggerEvent("RemovePlayerMoney",player,accountType,amount,cb,reason,safe)
-TriggerEvent("AddPlayerMoney",player,accountType,amount,cb,reason,safe)
-TriggerEvent("TransferPlayerMoney",player,cb,amount,accountTypeFrom,accountTypeTo,outreason,inreason)
-TriggerEvent("TransferPlayerMoneyToPlayer",player,targetplayer,cb,amount,typeFrom,typeTo,outreason,inreason)
+Event("RemovePlayerMoney",player,accountType,amount,cb,reason,safe)
+Event("AddPlayerMoney",player,accountType,amount,cb,reason,safe)
+Event("TransferPlayerMoney",player,cb,amount,accountTypeFrom,accountTypeTo,outreason,inreason)
+Event("TransferPlayerMoneyToPlayer",player,targetplayer,cb,amount,typeFrom,typeTo,outreason,inreason)
+Event("GetMoneyLog",player,cb)
+Event("GetPlayerMoney",player,cb)
 ```
 
 
 ## exports client 
 ```
 exports["nb-money"]:ChargerMoney(accountType,amount,cb,reason)
+exports["nb-money"]:UpdatePlayerMpMoneyUI(cash,bank)
+exports["nb-money"]:MoneyTransfedMessage(...)
 ```
 
 ## event client 
 ```
-TriggerEvent("ChargerMoney",accountType,amount,cb,reason)
+Event("ChargerMoney",accountType,amount,cb,reason)
+NetEvent("MoneyTransfedMessage",...)
 ```
 
 ## configs 

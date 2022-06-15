@@ -76,7 +76,7 @@ end
 RegisterNetEvent("receiveSalary",receiveSalary) 
 
 
-local TransfedMessage = function(...)
+local MoneyTransfedMessage = function(...)
     local opts = {...}
     TriggerServerCallback("GetPlayerMoney",function(money_account)
         UpdatePlayerMpMoneyUI(money_account.cash,money_account.bank)
@@ -102,7 +102,7 @@ local TransfedMessage = function(...)
         end 
     end)
 end
-RegisterNetEvent("TransfedMessage",TransfedMessage)
-exports("TransfedMessage",TransfedMessage)
+RegisterNetEvent("MoneyTransfedMessage",MoneyTransfedMessage)
+exports("MoneyTransfedMessage",MoneyTransfedMessage)
 exports("UpdatePlayerMpMoneyUI",UpdatePlayerMpMoneyUI)
 
