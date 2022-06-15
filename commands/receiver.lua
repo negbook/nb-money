@@ -25,10 +25,11 @@ end
 RegisterServerCallback("cmd:give",function(player,cb,target,amount)
     local player = tonumber(player) 
     local target = tonumber(target)
+   
     if target == nil then target = GetClosestPlayerFromPlayer(player) end 
     if not GetPlayerEndpoint(target) then return cb(false,"player not exist") end 
     
-    local playerCoords = TriggerClientCallbackSynced(player,"GetPosition")
+    local playerCoords = TriggerClientCallback(player,"GetPosition")
     local targetCoords = TriggerClientCallbackSynced(target,"GetPosition")
     
     if #(playerCoords-targetCoords) > 5.0 then return cb(false,"Far Away From Player") end 
@@ -41,6 +42,7 @@ end)
 RegisterServerCallback("cmd:pay",function(player,cb,target,amount)
     local player = tonumber(player) 
     local target = tonumber(target)
+    
     if target == nil then target = GetClosestPlayerFromPlayer(player) end 
  
     if not GetPlayerEndpoint(target) then return cb(false,"player not exist") end 
@@ -51,7 +53,15 @@ RegisterServerCallback("cmd:pay",function(player,cb,target,amount)
     if #(playerCoords-targetCoords) > 5.0 then return cb(false,"Far Away From Player") end 
     
     if player == target then return cb(false,"SamePlayer") end 
+    
     TransferPlayerMoneyToPlayer(player,target,"bank","bank",amount,cb,"Paid To","Receive Payment From")
 end)
 
 
+RconCommand = setmetatable({},{__newindex=function(t,k,fn) RegisterCommand(k,function(source, args, raw) local source = source if source>0 then else fn(table.unpack(args)) end end) return end })
+RconCommand["rconpay"] = function(amount,target)
+    local amount,target = tonumber(amount),tonumber(target)
+    AddPlayerMoney(target,"bank",amount,function(s)
+        if s then print("Paid player: "..target.." with $"..amount.." OK!") end 
+    end,"Paid by RCON?")
+end 

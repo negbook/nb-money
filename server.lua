@@ -6,6 +6,17 @@ local GetPlayerLicense = function(type, player)
     end
 end 
 
+local RegisterDatabaseTable = function(t,datas,cb)
+    local keys = {}
+    local values = {} 
+    for i,v in pairs(datas) do 
+        table.insert(keys,i)
+        table.insert(values,v)
+    end 
+    exports.oxmysql:query("INSERT INTO "..t.." ("..table.concat(keys,",")..") VALUES (?, ?, ?, ?)", values,
+    cb)
+end 
+
 local GetMoneyData = function(player,type,cb,isnumber)
     local license = GetPlayerLicense("license", player)
     exports.oxmysql:query("SELECT "..type.." FROM money WHERE license = ?", {license}, function(result)
@@ -37,8 +48,12 @@ local GetMoneyLog = function(player,cb)
     local result = {}
     for line in io.lines(GetResourcePath(GetCurrentResourceName()).."/log/"..license:gsub(":","-") ..'.log') do
         local temp = json.decode(line)
+        
         table.insert(result,temp)
     end
+    table.sort(result,function(A,B)
+        return A.timestamp > B.timestamp
+    end)
     cb(result)
 end 
 
@@ -121,7 +136,10 @@ RegisterServerCallback("GetMoneyLog",function(player,cb)
     GetMoneyLog(player,cb)
 end)
 
+
+
 RegisterServerCallback("GetPlayerMoney",function(player,cb,...)
+    local player = tonumber(player)
     local license = GetPlayerLicense("license", player)
     local types = {...}
     local result = exports.oxmysql:query_async("SELECT "..table.concat(types,",").." FROM money WHERE license = ? LIMIT 1", {license})
@@ -134,7 +152,13 @@ RegisterServerCallback("GetPlayerMoney",function(player,cb,...)
         money_account_numbered = result[1]
         cb(money_account_numbered)
     else 
-        exports.oxmysql:query("INSERT INTO money (license, cash, bank, cryto) VALUES (?, ?, ?, ?)", {license, config.startingCash, config.startingBank, config.startingCryto},function()
+        local datas = {
+            license = license,
+            cash= config.startingCash,
+            bank = config.startingBank,
+            cryto = config.startingCryto
+        }
+        RegisterDatabaseTable("money",datas,function()
             local result2 = exports.oxmysql:query_async("SELECT "..table.concat(types,",").." FROM money WHERE license = ? LIMIT 1", {license})
             local money_account = assert(result2 and result2[1], "Error getting money account")
             local money_account_numbered
@@ -163,13 +187,16 @@ end)
 
 
 
-local salaryTimer = config.salaryInterval * 60000
+local salaryTimer = config.salaryIntervalMS
 CreateThread(function()
     while true do
         Wait(salaryTimer)
         for _, player in pairs(GetPlayers()) do
-            UpdateMoneyData(player,"bank",config.salaryAmount,function()
-                TriggerClientEvent("receiveSalary", player, config.salaryAmount)
+ 
+            UpdateMoneyData(player,"bank",config.salaryAmount,function(success)
+                if success then 
+                    TriggerClientEvent("receiveSalary", player, config.salaryAmount)
+                end 
             end,"Salary")
         end
     end

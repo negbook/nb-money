@@ -7,30 +7,44 @@ ShowNotificationTicker = function(msg)
 end
 
 local ShowNotification = ShowNotificationTicker
-
+local GetLabelTextByHash = GetStreetNameFromHashKey
 
 
 Command["give"] = function(amount,target)
-
+    local amount,target = tonumber(amount),tonumber(target)
     TriggerServerCallback("cmd:give",function(suscess,err)
+        
         if not suscess then 
-            print(err)
+            AddTextEntry("hexEntry:0x002FFD3A",GetLabelTextByHash(0x002FFD3A))
+            BeginTextCommandThefeedPost("hexEntry:0x002FFD3A")
+            AddTextComponentSubstringPlayerName("")
+            EndTextCommandThefeedPostTicker(0,logInPauseMenu)
         else 
-            BeginTextCommandThefeedPost("MPATM_TRANCOM")
-            
+            BeginTextCommandThefeedPost("CELL_EMAIL_BCON")
+            AddTextComponentSubstringTextLabel("MPATM_TRANCOM")
+            AddTextComponentSubstringPlayerName("! ")
+            AddTextComponentSubstringTextLabelHashKey(0xC168FCA8)
+            AddTextComponentSubstringPlayerName(" $")
+            AddTextComponentFormattedInteger(amount, true)
             EndTextCommandThefeedPostTicker(0,logInPauseMenu)
         end 
     end,target,amount)
 end 
 
 Command["pay"] = function(amount,target)
-
+    local amount,target = tonumber(amount),tonumber(target)
     TriggerServerCallback("cmd:pay",function(suscess,err)
         if not suscess then 
-            print(err)
+            AddTextEntry("hexEntry:0x002FFD3A",GetLabelTextByHash(0x002FFD3A))
+            BeginTextCommandThefeedPost("hexEntry:0x002FFD3A")
+            EndTextCommandThefeedPostTicker(0,logInPauseMenu)
         else 
-            
-            BeginTextCommandThefeedPost("MPATM_TRANCOM")
+            BeginTextCommandThefeedPost("CELL_EMAIL_BCON")
+            AddTextComponentSubstringTextLabel("MPATM_TRANCOM")
+            AddTextComponentSubstringPlayerName("! ")
+            AddTextComponentSubstringTextLabelHashKey(0xC168FCA8)
+            AddTextComponentSubstringPlayerName(" $")
+            AddTextComponentFormattedInteger(amount, true)
             
             EndTextCommandThefeedPostTicker(0,logInPauseMenu)
         end 
@@ -40,40 +54,3 @@ end
 RegisterClientCallback("GetPosition",function(cb)
     cb(GetEntityCoords(PlayerPedId()))
 end)
-
---[[
-ClientCommand["give"] = function(source,target,amount)
-    local source = tonumber(source)
-    local target = tonumber(target)
-    if source == target then 
-        TriggerClientEvent(GetCurrentResourceName()..":FailedClientMessage",source,"CELEB_FAILED",true)
-        return 
-    end 
-    TransferPlayerMoneyToPlayer(source,target,"cash","cash",amount,function(suscess)
-        if suscess then 
-            TriggerClientEvent(GetCurrentResourceName()..":UpdateClient",source,"MPATM_PLCHLDR_CST",true,"ID:"..target)
-            TriggerClientEvent(GetCurrentResourceName()..":UpdateClient",target,"MPATM_PLCHLDR_CRF",true,"ID:"..source)
-        else 
-            TriggerClientEvent(GetCurrentResourceName()..":FailedClientMessage",source,"BB_NOMONEY",true)
-        end 
-    end,"Give To"..GetPlayerName(target),"Receive From"..GetPlayerName(source))
-end
-
-ClientCommand["pay"] = function(source,target,amount)
-    local source = tonumber(source)
-    local target = tonumber(target)
-    if source == target then 
-        TriggerClientEvent(GetCurrentResourceName()..":FailedClientMessage",source,"CELEB_FAILED",true)
-        return 
-    end 
-    TransferPlayerMoneyToPlayer(source,target,"bank","bank",amount,function(suscess)
-        if suscess then 
-            TriggerClientEvent(GetCurrentResourceName()..":UpdateClient",source,"MPATM_PLCHLDR_CST",true,"ID:"..target)
-            TriggerClientEvent(GetCurrentResourceName()..":UpdateClient",target,"MPATM_PLCHLDR_CRF",true,"ID:"..source)
-        else 
-            TriggerClientEvent(GetCurrentResourceName()..":FailedClientMessage",source,"BB_NOBANK",true)
-        end 
-    end,"Paid To"..GetPlayerName(target),"Receive Payment From"..GetPlayerName(source))
-end
----]]
-

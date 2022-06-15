@@ -1,6 +1,6 @@
 local initialed = false 
 local hideAt = nil
-
+local GetLabelTextByHash = GetStreetNameFromHashKey
 
 
 
@@ -31,7 +31,7 @@ CreateThread(function()
 	end
 end)
 
-if not ( config.fadeoutTimerMS == 0 ) then 
+if not ( config.fadeoutTimerMS <= 0 ) then 
     CreateThread(function()
         while true do 
             Wait(500)
@@ -63,11 +63,14 @@ if not config.disableEvents then
     AddEventHandler("ChargerMoney",ChargerMoney)
 end 
 
+
+
 receiveSalary = function(amount)
+
     BeginTextCommandThefeedPost("GOODBOYTICK")
+
     AddTextComponentInteger(amount, true)
     EndTextCommandThefeedPostTicker(false, true)
-    BeginTextCommandThefeedPost("GOODBOYRMDR")
-    EndTextCommandThefeedPostTicker(false, true)
 end
+
 RegisterNetEvent("receiveSalary",receiveSalary) 

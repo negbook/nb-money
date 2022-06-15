@@ -27,12 +27,17 @@ TriggerEvent("ChargerMoney",accountType,amount,cb,reason)
 ## configs 
 ```
 config.displayMPMoney   to display MP Money on the screenRightTop
-config.fadeoutTimerMS   to set display off timer of MP Money 
+config.fadeoutTimerMS   to set display off timer of MP Money  (less than or equal 0 = forever)
 config.startingCash     to set starting cash if some new guy come
 config.startingBank     to set starting bank if some new guy come
 config.startingCryto    to set starting cryto if some new guy come
 config.salaryAmount     to set salary amount to the bank 
-config.salaryInterval   to set salary timer 
-config.disableEvents    to set disable events and use it only with exports 
+config.salaryIntervalMS   to set salary timer MS 
+config.disableEvents    to disable events from this script and use only with exports 
 ```
 
+## commands 
+```
+/give cashAmount serverid (if serverid is empty will get closest player as possible)
+/pay bankAmount serverid (if serverid is empty will get closest player as possible)
+```
