@@ -185,21 +185,22 @@ RegisterServerCallback("TransferMoney",function(player,cb,amount,typeFrom,typeTo
 end)
 
 
-
-local salaryTimer = config.salaryIntervalMS
-CreateThread(function()
-    while true do
-        Wait(salaryTimer)
-        for _, player in pairs(GetPlayers()) do
- 
-            UpdateMoneyData(player,"bank",config.salaryAmount,function(success)
-                if success then 
-                    TriggerClientEvent("receiveSalary", player, config.salaryAmount)
-                end 
-            end,"Salary")
+if config.salary then 
+    local salaryTimer = config.salaryIntervalMS
+    CreateThread(function()
+        while true do
+            Wait(salaryTimer)
+            for _, player in pairs(GetPlayers()) do
+     
+                UpdateMoneyData(player,"bank",config.salaryAmount,function(success)
+                    if success then 
+                        TriggerClientEvent("receiveSalary", player, config.salaryAmount)
+                    end 
+                end,"Salary")
+            end
         end
-    end
-end)
+    end)
+end 
 
 if not config.disableEvents then 
     AddEventHandler("RemovePlayerMoney",RemovePlayerMoney)

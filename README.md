@@ -31,6 +31,7 @@ config.fadeoutTimerMS   to set display off timer of MP Money  (less than or equa
 config.startingCash     to set starting cash if some new guy come
 config.startingBank     to set starting bank if some new guy come
 config.startingCryto    to set starting cryto if some new guy come
+config.salary           to set using salary system
 config.salaryAmount     to set salary amount to the bank 
 config.salaryIntervalMS   to set salary timer MS 
 config.disableEvents    to disable events from this script and use only with exports 
