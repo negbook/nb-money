@@ -38,6 +38,7 @@ config.disableEvents    to disable events from this script and use only with exp
 
 ## commands 
 ```
-/give cashAmount serverid (if serverid is empty will get closest player as possible)
-/pay bankAmount serverid (if serverid is empty will get closest player as possible)
+/givecash cashAmount serverid (if serverid is empty will get closest player as possible)
+/paybank bankAmount serverid (if serverid is empty will get closest player as possible)
+/rconpaybank bankAmount serverid (rcon adding a player bank)
 ```
