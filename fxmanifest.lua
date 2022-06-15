@@ -6,9 +6,6 @@ lua54 'yes'
 
 client_scripts {
 'client.lua',
-'module/shared/*.js',
-'module/shared/*.lua',
-'module/*.lua',
 'commands/client.lua'
 }
 
