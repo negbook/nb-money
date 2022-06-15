@@ -98,6 +98,7 @@ if not IsDuplicityVersion() then
     end)
 else 
     TriggerClientCallback = function(name,client,cb,...)
+        if tonumber(client) == -1 then error("Client can not be set to -1 for the callback",2) end 
         local p = promise.new() 
         local uuid = name
         TriggerClientEvent("n"..GetCurrentResourceName()..':RequestClientCallback'..client,client,uuid,...)
