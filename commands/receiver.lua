@@ -26,11 +26,12 @@ RegisterServerCallback("cmd:givecash",function(player,cb,target,amount)
     local player = tonumber(player) 
     local target = tonumber(target)
     local amount = tonumber(amount)
-    
+
     if target == nil then target = GetClosestPlayerFromPlayer(player) end 
+ 
     if not GetPlayerEndpoint(target) then return cb(false,"player not exist") end 
     
-    local playerCoords = TriggerClientCallback(player,"GetPosition")
+    local playerCoords = TriggerClientCallbackSynced(player,"GetPosition")
     local targetCoords = TriggerClientCallbackSynced(target,"GetPosition")
     
     if #(playerCoords-targetCoords) > 5.0 then return cb(false,"Far Away From Player") end 
@@ -50,7 +51,7 @@ RegisterServerCallback("cmd:paybank",function(player,cb,target,amount)
     local player = tonumber(player) 
     local target = tonumber(target)
     local amount = tonumber(amount)
-    print(target)
+
     if target == nil then target = GetClosestPlayerFromPlayer(player) end 
  
     if not GetPlayerEndpoint(target) then return cb(false,"player not exist") end 
