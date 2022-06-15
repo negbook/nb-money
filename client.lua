@@ -74,3 +74,31 @@ receiveSalary = function(amount)
 end
 
 RegisterNetEvent("receiveSalary",receiveSalary) 
+
+RegisterNetEvent("UpdatePlayerMpMoneyUI",function(...)
+    local opts = {...}
+    
+    TriggerServerCallback("GetPlayerMoney",function(money_account)
+        UpdatePlayerMpMoneyUI(money_account.cash,money_account.bank)
+        if opts[1] then 
+            BeginTextCommandThefeedPost("CELL_EMAIL_BCON")
+            for i,v in pairs(opts) do 
+                
+                if string.sub(v, 1, string.len("label:")) == "label:" then 
+                    local v = string.sub(v, string.len("label:")+1, string.len(v))
+                    AddTextComponentSubstringTextLabel(v)
+                elseif string.sub(v, 1, string.len("hashlabel:")) == "hashlabel:" then 
+                    local v = string.sub(v, string.len("hashlabel:")+1, string.len(v))
+                    AddTextComponentSubstringTextLabelHashKey(tonumber(v))
+                else 
+                    if type(v) == "number" then 
+                        AddTextComponentFormattedInteger(v, true)
+                    else 
+                        AddTextComponentSubstringPlayerName(v)
+                    end 
+                end 
+            end 
+            EndTextCommandThefeedPostTicker(0,1)
+        end 
+    end,"cash","bank")
+end)

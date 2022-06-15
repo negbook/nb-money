@@ -22,10 +22,11 @@ local GetClosestPlayerFromPlayer = function(player)
 end
 
 
-RegisterServerCallback("cmd:give",function(player,cb,target,amount)
+RegisterServerCallback("cmd:givecash",function(player,cb,target,amount)
     local player = tonumber(player) 
     local target = tonumber(target)
-   
+    local amount = tonumber(amount)
+    
     if target == nil then target = GetClosestPlayerFromPlayer(player) end 
     if not GetPlayerEndpoint(target) then return cb(false,"player not exist") end 
     
@@ -36,13 +37,20 @@ RegisterServerCallback("cmd:give",function(player,cb,target,amount)
     
     if player == target then return cb(false,"SamePlayer") end 
     
-    TransferPlayerMoneyToPlayer(player,target,"cash","cash",amount,cb,"Give To","Receive From")
+    TransferPlayerMoneyToPlayer(player,target,"cash","cash",amount,function(success)
+        if success then 
+            TriggerClientEvent("UpdatePlayerMpMoneyUI",player,"label:MPATM_TRANCOM","! ","hashlabel:0xC168FCA8"," $",amount)
+            TriggerClientEvent("UpdatePlayerMpMoneyUI",target,"label:MPATM_TRANCOM","! ","hashlabel:0xC168FCA8"," $",amount,"\n>>","cash")
+        end 
+        cb(success)
+    end,"Give To","Receive From")
 end)
 
-RegisterServerCallback("cmd:pay",function(player,cb,target,amount)
+RegisterServerCallback("cmd:paybank",function(player,cb,target,amount)
     local player = tonumber(player) 
     local target = tonumber(target)
-    
+    local amount = tonumber(amount)
+    print(target)
     if target == nil then target = GetClosestPlayerFromPlayer(player) end 
  
     if not GetPlayerEndpoint(target) then return cb(false,"player not exist") end 
@@ -54,12 +62,18 @@ RegisterServerCallback("cmd:pay",function(player,cb,target,amount)
     
     if player == target then return cb(false,"SamePlayer") end 
     
-    TransferPlayerMoneyToPlayer(player,target,"bank","bank",amount,cb,"Paid To","Receive Payment From")
+    TransferPlayerMoneyToPlayer(player,target,"bank","bank",amount,function(success)
+        if success then 
+            TriggerClientEvent("UpdatePlayerMpMoneyUI",player,"label:MPATM_TRANCOM","! ","hashlabel:0xC168FCA8"," $",amount)
+            TriggerClientEvent("UpdatePlayerMpMoneyUI",target,"label:MPATM_TRANCOM","! ","hashlabel:0xC168FCA8"," $",amount,"\n>>","bank")
+        end 
+        cb(success)
+    end,"Paid To","Receive Payment From")
 end)
 
 
 RconCommand = setmetatable({},{__newindex=function(t,k,fn) RegisterCommand(k,function(source, args, raw) local source = source if source>0 then else fn(table.unpack(args)) end end) return end })
-RconCommand["rconpay"] = function(amount,target)
+RconCommand["rconpaybank"] = function(amount,target)
     local amount,target = tonumber(amount),tonumber(target)
     AddPlayerMoney(target,"bank",amount,function(s)
         if s then print("Paid player: "..target.." with $"..amount.." OK!") end 

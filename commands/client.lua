@@ -10,9 +10,10 @@ local ShowNotification = ShowNotificationTicker
 local GetLabelTextByHash = GetStreetNameFromHashKey
 
 
-Command["give"] = function(amount,target)
-    local amount,target = tonumber(amount),tonumber(target)
-    TriggerServerCallback("cmd:give",function(suscess,err)
+Command["givecash"] = function(amount,target)
+    local amount = tonumber(amount)
+    local target = tonumber(target)
+    TriggerServerCallback("cmd:givecash",function(suscess,err)
         
         if not suscess then 
             AddTextEntry("hexEntry:0x002FFD3A",GetLabelTextByHash(0x002FFD3A))
@@ -20,36 +21,26 @@ Command["give"] = function(amount,target)
             AddTextComponentSubstringPlayerName("")
             EndTextCommandThefeedPostTicker(0,logInPauseMenu)
         else 
-            BeginTextCommandThefeedPost("CELL_EMAIL_BCON")
-            AddTextComponentSubstringTextLabel("MPATM_TRANCOM")
-            AddTextComponentSubstringPlayerName("! ")
-            AddTextComponentSubstringTextLabelHashKey(0xC168FCA8)
-            AddTextComponentSubstringPlayerName(" $")
-            AddTextComponentFormattedInteger(amount, true)
-            EndTextCommandThefeedPostTicker(0,logInPauseMenu)
+            
         end 
     end,target,amount)
 end 
 
-Command["pay"] = function(amount,target)
-    local amount,target = tonumber(amount),tonumber(target)
-    TriggerServerCallback("cmd:pay",function(suscess,err)
+Command["paybank"] = function(amount,target)
+    local amount = tonumber(amount)
+    local target = tonumber(target)
+    TriggerServerCallback("cmd:paybank",function(suscess,err)
         if not suscess then 
             AddTextEntry("hexEntry:0x002FFD3A",GetLabelTextByHash(0x002FFD3A))
             BeginTextCommandThefeedPost("hexEntry:0x002FFD3A")
             EndTextCommandThefeedPostTicker(0,logInPauseMenu)
         else 
-            BeginTextCommandThefeedPost("CELL_EMAIL_BCON")
-            AddTextComponentSubstringTextLabel("MPATM_TRANCOM")
-            AddTextComponentSubstringPlayerName("! ")
-            AddTextComponentSubstringTextLabelHashKey(0xC168FCA8)
-            AddTextComponentSubstringPlayerName(" $")
-            AddTextComponentFormattedInteger(amount, true)
             
-            EndTextCommandThefeedPostTicker(0,logInPauseMenu)
         end 
     end,target,amount)
 end 
+
+
 
 RegisterClientCallback("GetPosition",function(cb)
     cb(GetEntityCoords(PlayerPedId()))
