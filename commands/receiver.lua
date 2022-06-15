@@ -1,6 +1,6 @@
 local GetClosestPlayerFromPlayer = function(player)
     local targets = GetPlayers()
-    local playerCoords = TriggerClientCallbackSynced(player,"GetPosition")
+    local playerCoords = TriggerClientCallbackSynced("GetPosition",player)
 
     local closestDistance = -1
     local closestPlayer   = -1
@@ -9,7 +9,7 @@ local GetClosestPlayerFromPlayer = function(player)
     for i=1, #targets, 1 do
       local target = tonumber(targets[i])
       if target ~= player then
-        local targetCoords = TriggerClientCallbackSynced(target,"GetPosition")
+        local targetCoords = TriggerClientCallbackSynced("GetPosition",target)
         local distance     = #(targetCoords-playerCoords)
         if closestDistance == -1 or closestDistance > distance then
           closestPlayer   = targets[i]
@@ -31,8 +31,8 @@ RegisterServerCallback("cmd:givecash",function(player,cb,target,amount)
  
     if not GetPlayerEndpoint(target) then return cb(false,"player not exist") end 
     
-    local playerCoords = TriggerClientCallbackSynced(player,"GetPosition")
-    local targetCoords = TriggerClientCallbackSynced(target,"GetPosition")
+    local playerCoords = TriggerClientCallbackSynced("GetPosition",player)
+    local targetCoords = TriggerClientCallbackSynced("GetPosition",target)
     
     if #(playerCoords-targetCoords) > 5.0 then return cb(false,"Far Away From Player") end 
     
@@ -56,8 +56,8 @@ RegisterServerCallback("cmd:paybank",function(player,cb,target,amount)
  
     if not GetPlayerEndpoint(target) then return cb(false,"player not exist") end 
     
-    local playerCoords = TriggerClientCallbackSynced(player,"GetPosition")
-    local targetCoords = TriggerClientCallbackSynced(target,"GetPosition")
+    local playerCoords = TriggerClientCallbackSynced("GetPosition",player)
+    local targetCoords = TriggerClientCallbackSynced("GetPosition",target)
     
     if #(playerCoords-targetCoords) > 5.0 then return cb(false,"Far Away From Player") end 
     
