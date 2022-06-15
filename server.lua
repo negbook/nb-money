@@ -138,11 +138,10 @@ end)
 
 
 
-RegisterServerCallback("GetPlayerMoney",function(player,cb,...)
+RegisterServerCallback("GetPlayerMoney",function(player,cb)
     local player = tonumber(player)
     local license = GetPlayerLicense("license", player)
-    local types = {...}
-    local result = exports.oxmysql:query_async("SELECT "..table.concat(types,",").." FROM money WHERE license = ? LIMIT 1", {license})
+    local result = exports.oxmysql:query_async("SELECT * FROM money WHERE license = ? LIMIT 1", {license})
     local money_account = result and result[1]
     local money_account_numbered
     if money_account then 
@@ -159,7 +158,7 @@ RegisterServerCallback("GetPlayerMoney",function(player,cb,...)
             cryto = config.startingCryto
         }
         RegisterDatabaseTable("money",datas,function()
-            local result2 = exports.oxmysql:query_async("SELECT "..table.concat(types,",").." FROM money WHERE license = ? LIMIT 1", {license})
+            local result2 = exports.oxmysql:query_async("SELECT * FROM money WHERE license = ? LIMIT 1", {license})
             local money_account = assert(result2 and result2[1], "Error getting money account")
             local money_account_numbered
             if money_account then 

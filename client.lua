@@ -25,7 +25,7 @@ CreateThread(function()
 		if not initialed and NetworkIsSessionStarted() then
 			TriggerServerCallback("GetPlayerMoney",function(money_account)
                 UpdatePlayerMpMoneyUI(money_account.cash,money_account.bank)
-            end,"cash","bank")
+            end)
 			return
 		end
 	end
@@ -52,7 +52,7 @@ ChargerMoney = function(type,amount,cb,reason)
             TriggerServerCallback("GetPlayerMoney",function(money_account)
                 UpdatePlayerMpMoneyUI(money_account.cash,money_account.bank)
                 --print(json.encode(money_account))
-            end,"cash","bank")
+            end)
         end 
         if cb then cb(success) end 
     end,amount,type,reason)
@@ -100,5 +100,5 @@ RegisterNetEvent("UpdatePlayerMpMoneyUI",function(...)
             end 
             EndTextCommandThefeedPostTicker(0,1)
         end 
-    end,"cash","bank")
+    end)
 end)
