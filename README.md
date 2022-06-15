@@ -26,6 +26,7 @@ TriggerEvent("ChargerMoney",accountType,amount,cb,reason)
 
 ## configs 
 ```
+config.acceptedtable    to set what your money type exactly is in sql to avoid sql-injection
 config.displayMPMoney   to display MP Money on the screenRightTop
 config.fadeoutTimerMS   to set display off timer of MP Money  (less than or equal 0 = forever)
 config.startingCash     to set starting cash if some new guy come
