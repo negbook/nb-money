@@ -9,11 +9,13 @@ end
 local RegisterDatabaseTable = function(t,datas,cb)
     local keys = {}
     local values = {} 
+    local valuestxt = {}
     for i,v in pairs(datas) do 
         table.insert(keys,i)
         table.insert(values,v)
+        table.insert(valuestxt,"?")
     end 
-    exports.oxmysql:query("INSERT INTO "..t.." ("..table.concat(keys,",")..") VALUES (?, ?, ?, ?)", values,
+    exports.oxmysql:query("INSERT INTO "..t.." ("..table.concat(keys,",")..") VALUES ("..table.concat(valuestxt,",")..")", values,
     cb)
 end 
 
