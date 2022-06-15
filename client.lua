@@ -75,9 +75,9 @@ end
 
 RegisterNetEvent("receiveSalary",receiveSalary) 
 
-RegisterNetEvent("UpdatePlayerMpMoneyUI",function(...)
+
+local TransfedMessage = function(...)
     local opts = {...}
-    
     TriggerServerCallback("GetPlayerMoney",function(money_account)
         UpdatePlayerMpMoneyUI(money_account.cash,money_account.bank)
         if opts[1] then 
@@ -101,5 +101,8 @@ RegisterNetEvent("UpdatePlayerMpMoneyUI",function(...)
             EndTextCommandThefeedPostTicker(0,1)
         end 
     end)
-end)
+end
+RegisterNetEvent("TransfedMessage",TransfedMessage)
+exports("TransfedMessage",TransfedMessage)
+exports("UpdatePlayerMpMoneyUI",UpdatePlayerMpMoneyUI)
 

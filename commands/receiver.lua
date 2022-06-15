@@ -40,8 +40,8 @@ RegisterServerCallback("cmd:givecash",function(player,cb,target,amount)
     
     TransferPlayerMoneyToPlayer(player,target,"cash","cash",amount,function(success)
         if success then 
-            TriggerClientEvent("UpdatePlayerMpMoneyUI",player,"label:MPATM_TRANCOM","! ","hashlabel:0xC168FCA8"," $",amount)
-            TriggerClientEvent("UpdatePlayerMpMoneyUI",target,"label:MPATM_TRANCOM","! ","hashlabel:0xC168FCA8"," $",amount,"\n>>","cash")
+            TriggerClientEvent("TransfedMessage",player,"label:MPATM_TRANCOM","! ","hashlabel:0xC168FCA8"," $",amount)
+            TriggerClientEvent("TransfedMessage",target,"label:MPATM_TRANCOM","! ","hashlabel:0xC168FCA8"," $",amount,"\n>>","cash")
         end 
         cb(success)
     end,"Give To","Receive From")
@@ -65,8 +65,8 @@ RegisterServerCallback("cmd:paybank",function(player,cb,target,amount)
     
     TransferPlayerMoneyToPlayer(player,target,"bank","bank",amount,function(success)
         if success then 
-            TriggerClientEvent("UpdatePlayerMpMoneyUI",player,"label:MPATM_TRANCOM","! ","hashlabel:0xC168FCA8"," $",amount)
-            TriggerClientEvent("UpdatePlayerMpMoneyUI",target,"label:MPATM_TRANCOM","! ","hashlabel:0xC168FCA8"," $",amount,"\n>>","bank")
+            TriggerClientEvent("TransfedMessage",player,"label:MPATM_TRANCOM","! ","hashlabel:0xC168FCA8"," $",amount)
+            TriggerClientEvent("TransfedMessage",target,"label:MPATM_TRANCOM","! ","hashlabel:0xC168FCA8"," $",amount,"\n>>","bank")
         end 
         cb(success)
     end,"Paid To","Receive Payment From")

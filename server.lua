@@ -137,8 +137,7 @@ RegisterServerCallback("GetMoneyLog",function(player,cb)
 end)
 
 
-
-RegisterServerCallback("GetPlayerMoney",function(player,cb)
+local GetPlayerMoney = function(player,cb)
     local player = tonumber(player)
     local license = GetPlayerLicense("license", player)
     local result = exports.oxmysql:query_async("SELECT * FROM money WHERE license = ? LIMIT 1", {license})
@@ -174,7 +173,8 @@ RegisterServerCallback("GetPlayerMoney",function(player,cb)
         end)
     end 
     
-end )
+end
+RegisterServerCallback("GetPlayerMoney", GetPlayerMoney )
 
 
 local BadLog = function(player,reason,...)
@@ -232,11 +232,14 @@ if not config.disableEvents then
     AddEventHandler("AddPlayerMoney",AddPlayerMoney)
     AddEventHandler("TransferPlayerMoney",TransferPlayerMoney)
     AddEventHandler("TransferPlayerMoneyToPlayer",TransferPlayerMoneyToPlayer)
+    AddEventHandler("GetMoneyLog",GetMoneyLog)
+    AddEventHandler("GetPlayerMoney",GetPlayerMoney)
 end 
 exports("RemovePlayerMoney",RemovePlayerMoney)
 exports("AddPlayerMoney",AddPlayerMoney)
 exports("TransferPlayerMoney",TransferPlayerMoney)
 exports("TransferPlayerMoneyToPlayer",TransferPlayerMoneyToPlayer)
-
+exports("GetMoneyLog",GetMoneyLog)
+exports("GetPlayerMoney",GetPlayerMoney)
 
 
