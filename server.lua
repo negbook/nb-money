@@ -180,10 +180,6 @@ RegisterServerCallback("ChargerMoney",function(player,cb,amount,type,reason)
     RemovePlayerMoney(player,type,amount,cb,reason,true)
 end)
 
-RegisterServerCallback("TransferMoney",function(player,cb,amount,typeFrom,typeTo,outreason,inreason)
-    TransferPlayerMoney(player,typeFrom,typeTo,amount,cb,outreason,inreason)
-end)
-
 
 if config.salary then 
     local salaryTimer = config.salaryIntervalMS
