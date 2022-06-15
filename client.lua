@@ -102,3 +102,4 @@ RegisterNetEvent("UpdatePlayerMpMoneyUI",function(...)
         end 
     end)
 end)
+

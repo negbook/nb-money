@@ -176,8 +176,37 @@ RegisterServerCallback("GetPlayerMoney",function(player,cb)
     
 end )
 
+
+local BadLog = function(player,reason,...)
+    local license = GetPlayerLicense("license", player)
+    local opts = {...}
+    if opts[1] then 
+        reason = reason.." "..table.concat(opts," ")
+    end 
+    local f,err = io.open(GetResourcePath(GetCurrentResourceName())..'/log/bad.log','a+')
+    
+	if not f then return print(err) end
+    local data = {license=license, reason=reason or "Undescription",date=os.date("%x %X",timestamp)}
+    local line = json.encode(data).."\n"
+    
+	f:write(line)
+	f:close()
+end 
 RegisterServerCallback("ChargerMoney",function(player,cb,amount,type,reason)
-    RemovePlayerMoney(player,type,amount,cb,reason,true)
+    local found = false 
+    local acceptedtable = config.acceptedtable
+    for i=1,#acceptedtable do 
+        local v = acceptedtable[i]
+        if v == type then 
+            found = true 
+            break 
+        end 
+    end 
+    if found then 
+        RemovePlayerMoney(player,type,amount,cb,reason,true)
+    else 
+        BadLog(player,"Warning: Player is trying execute sql table type:",type)
+    end 
 end)
 
 

@@ -1,4 +1,8 @@
 config = {}
+config.acceptedtable = {
+    "cash",
+    "bank"
+}
 config.displayMPMoney = true
 config.fadeoutTimerMS = 5000 -- less than or equal 0 = forever
 config.startingCash = 500
