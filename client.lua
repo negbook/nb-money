@@ -58,23 +58,11 @@ ChargerMoney = function(type,amount,cb,reason)
     end,amount,type,reason)
 end
 
-exports("ChargerMoney",ChargerMoney)
-if not config.disableEvents then 
-    AddEventHandler("ChargerMoney",ChargerMoney)
-end 
-
-
-
-receiveSalary = function(amount)
-
+RegisterNetEvent("receiveSalary",function(amount)
     BeginTextCommandThefeedPost("GOODBOYTICK")
-
     AddTextComponentInteger(amount, true)
     EndTextCommandThefeedPostTicker(false, true)
-end
-
-RegisterNetEvent("receiveSalary",receiveSalary) 
-
+end) 
 
 local MoneyTransfedMessage = function(...)
     local opts = {...}
@@ -102,7 +90,9 @@ local MoneyTransfedMessage = function(...)
         end 
     end)
 end
+
 RegisterNetEvent("MoneyTransfedMessage",MoneyTransfedMessage)
+
+exports("ChargerMoney",ChargerMoney)
 exports("MoneyTransfedMessage",MoneyTransfedMessage)
 exports("UpdatePlayerMpMoneyUI",UpdatePlayerMpMoneyUI)
-

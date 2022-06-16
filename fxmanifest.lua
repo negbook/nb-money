@@ -16,7 +16,8 @@ server_scripts {
 
 shared_scripts {
     'config.lua',
-    'callback.lua'
+    'callback.lua',
+    "import.lua",
     
 }
 

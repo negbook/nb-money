@@ -1,35 +1,33 @@
-## exports server
+## import functions
+put this in yoru fxmanifest.lua to use those functions, also recommended dependencies it
 ```
-exports["nb-money"]:RemovePlayerMoney(player,accountType,amount,cb,reason,safe)
-exports["nb-money"]:AddPlayerMoney(player,accountType,amount,cb,reason,safe)
-exports["nb-money"]:TransferPlayerMoney(player,cb,amount,accountTypeFrom,accountTypeTo,outreason,inreason)
-exports["nb-money"]:TransferPlayerMoneyToPlayer(player,targetplayer,cb,amount,typeFrom,typeTo,outreason,inreason)
-exports["nb-money"]:GetMoneyLog(player,cb)
-exports["nb-money"]:GetPlayerMoney(player,cb)
+shared_scripts{
+    '@nb-money/import.lua'
+}
+
+dependencies {
+    'nb-money',
+    ...
+}
 
 ```
-## events server (not supported TriggerServerEvent for safe)
+
+## server functions
 ```
-Event("RemovePlayerMoney",player,accountType,amount,cb,reason,safe)
-Event("AddPlayerMoney",player,accountType,amount,cb,reason,safe)
-Event("TransferPlayerMoney",player,cb,amount,accountTypeFrom,accountTypeTo,outreason,inreason)
-Event("TransferPlayerMoneyToPlayer",player,targetplayer,cb,amount,typeFrom,typeTo,outreason,inreason)
-Event("GetMoneyLog",player,cb)
-Event("GetPlayerMoney",player,cb)
+RemovePlayerMoney(player,accountType,amount,cb,reason,safe)
+AddPlayerMoney(player,accountType,amount,cb,reason,safe)
+TransferPlayerMoney(player,cb,amount,accountTypeFrom,accountTypeTo,outreason,inreason)
+TransferPlayerMoneyToPlayer(player,targetplayer,cb,amount,typeFrom,typeTo,outreason,inreason)
+GetMoneyLog(player,cb)
+GetPlayerMoney(player,cb)
+
 ```
 
-
-## exports client 
+## client functions
 ```
-exports["nb-money"]:ChargerMoney(accountType,amount,cb,reason)
-exports["nb-money"]:UpdatePlayerMpMoneyUI(cash,bank)
-exports["nb-money"]:MoneyTransfedMessage(...)
-```
-
-## event client 
-```
-Event("ChargerMoney",accountType,amount,cb,reason)
-NetEvent("MoneyTransfedMessage",...)
+ChargerMoney(accountType,amount,cb,reason)
+UpdatePlayerMpMoneyUI(cash,bank)
+MoneyTransfedMessage(...)
 ```
 
 ## configs 
@@ -43,7 +41,6 @@ config.startingCryto    to set starting cryto if some new guy come
 config.salary           to set using salary system
 config.salaryAmount     to set salary amount to the bank 
 config.salaryIntervalMS   to set salary timer MS 
-config.disableEvents    to disable events from this script and use only with exports 
 ```
 
 ## commands 

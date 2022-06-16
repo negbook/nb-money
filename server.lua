@@ -229,19 +229,10 @@ if config.salary then
     end)
 end 
 
-if not config.disableEvents then 
-    AddEventHandler("RemovePlayerMoney",RemovePlayerMoney)
-    AddEventHandler("AddPlayerMoney",AddPlayerMoney)
-    AddEventHandler("TransferPlayerMoney",TransferPlayerMoney)
-    AddEventHandler("TransferPlayerMoneyToPlayer",TransferPlayerMoneyToPlayer)
-    AddEventHandler("GetMoneyLog",GetMoneyLog)
-    AddEventHandler("GetPlayerMoney",GetPlayerMoney)
-end 
+
 exports("RemovePlayerMoney",RemovePlayerMoney)
 exports("AddPlayerMoney",AddPlayerMoney)
 exports("TransferPlayerMoney",TransferPlayerMoney)
 exports("TransferPlayerMoneyToPlayer",TransferPlayerMoneyToPlayer)
 exports("GetMoneyLog",GetMoneyLog)
 exports("GetPlayerMoney",GetPlayerMoney)
-
-
