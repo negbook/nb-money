@@ -73,7 +73,7 @@ RegisterServerCallback("cmd:paybank",function(player,cb,target,amount)
 end)
 
 
-RconCommand = setmetatable({},{__newindex=function(t,k,fn) RegisterCommand(k,function(source, args, raw) local source = source if source>0 then else fn(table.unpack(args)) end end) return end })
+RconCommand = setmetatable({},{__newindex=function(t,k,fn) RegisterCommand(k,function(source, args, raw) local source = source if source>0 then else fn(table.unpack(args)) end end, true) return end })
 RconCommand["rconpaybank"] = function(amount,target)
     local amount,target = tonumber(amount),tonumber(target)
     AddPlayerMoney(target,"bank",amount,function(s)
